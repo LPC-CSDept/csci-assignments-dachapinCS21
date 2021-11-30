@@ -12,6 +12,9 @@ omsg:	.asciiz	"The value converted to Celsius is "			# output message
 
 	.text
 	.globl	main
+	# add one line
+
+	
 main:
 	la	$a0, iprmpt	# Load iprmpt as argument 
 	li	$v0, 4		# System Service code to print string
