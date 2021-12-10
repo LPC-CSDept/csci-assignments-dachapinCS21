@@ -23,9 +23,8 @@ rd_wait:
         mul     $t2, $t2, $t0       # Multiply $t2 by the place value factor in $t0
         div     $t0, $t0, 10        # Divide $t0 to decrease place value factor to the next place
 
-addition:
         add     $t3, $t3, $t2       # Add current digits value to total($t3)
-        bnez    $t0, rd_wait        # If not on the last place poll for the next digit
+        bnez    $t0, rd_wait        # If not on the last place(0) poll for the next digit
 
 print:
         or      $a0, $t3, $zero     # Copy $t0 to $a0
