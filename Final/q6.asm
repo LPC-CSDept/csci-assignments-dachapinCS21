@@ -20,7 +20,6 @@ main:
 loop:
         j       loop            # Infinite loop until 'q' is reached
 
-
         .ktext  0x80000180      # Start of Kernel text
         sw      $v0, 10         # Set $v0 to 10
         sw      $a0, 11         # Set $a0 to 11
