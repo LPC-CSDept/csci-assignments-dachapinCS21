@@ -30,6 +30,11 @@ loop:
         andi    $a0, $a0, 0x1F  # Only leave 5 bits that represeent Exception Code
         bnez    $a0, done       # If exception code is skip to done
 
+        lui     $v0, 0xFFFF     # $v0 = Memory location of the start of the MMIO section(Receiver Control) 
+        lw      $a0, 4($v0)     # Read data from Receiver Data to $a0
+        li      $v0, 4          # System Code to print string
+        syscall
+
 done:
         lw      $v0, 10         # Restore $v0
         lw      $a0, 11         # Restore $a0
