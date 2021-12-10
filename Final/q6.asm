@@ -6,8 +6,9 @@
 # Take input by user and print it in the console until 'q' is typed using an interrupt handler
 #
         .kdata
-s1:     .word   10
-s2:     .word   11
+s1:     .word   10                  # for $v0 in kernel text
+s2:     .word   11                  # for $a0 in kernel text
+nl:     .asciiz "\n"                # New line 
 
         .text
         .globl  main
@@ -24,8 +25,8 @@ loop:
         j       loop                # Infinite loop until 'q' is reached
 
         .ktext  0x80000180          # Start of Kernel text
-        sw      $v0, s1             # Set $v0 to 10
-        sw      $a0, s2             # Set $a0 to 11
+        sw      $v0, s1             # Registers for use in the kernel
+        sw      $a0, s2             # Registers for use in the kernel
         
         mfc0    $k0, $13            # Read Cause Register to $k0
         srl     $a0, $k0, 2         # Bit 0 and 1 of Cause Register are blank
@@ -40,6 +41,10 @@ loop:
 
 print:
         li      $v0, 11              # System Code to print character
+        syscall
+
+        la      $a0, nl             # Set $a0 = nl
+        li      $v0, 4              # System Code to print string
         syscall
 
 done:
