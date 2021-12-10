@@ -22,12 +22,21 @@ loop:
 
 
         .ktext  0x80000180      # Start of Kernel text
-        sw      $v0, 10
-        sw      $a0, 11
+        sw      $v0, 10         # Set $v0 to 10
+        sw      $a0, 11         # Set $a0 to 11
 
         mfc0    $k0, $13        # Read Cause Register to $k0
         srl     $a0, $k0, 2     # Bit 0 and 1 of Cause Register are blank
         andi    $a0, $a0, 0x1F  # Only leave 5 bits that represeent Exception Code
         bnez    $a0, done       # If exception code is skip to done
+
+done:
+        lw      $v0, 10         # Restore $v0
+        lw      $a0, 11         # Restore $a0
+        mtc0    $zero, $13      # Clear Cause Register
+        mfc0    $k0, $12        # Set Status Register
+        ori     $k0, 0x11       # Reenable interrupts
+        mtc0    $k0, $12        # Copy to Status Register
+        eret                    # Return to Exception Program Counter
 
 
