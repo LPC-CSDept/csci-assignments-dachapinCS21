@@ -26,4 +26,8 @@ loop:
         sw      $a0, 11
 
         mfc0    $k0, $13        # Read Cause Register to $k0
-        
+        srl     $a0, $k0, 2     # Bit 0 and 1 of Cause Register are blank
+        andi    $a0, $a0, 0x1F  # Only leave 5 bits that represeent Exception Code
+        bnez    $a0, done       # If exception code is skip to done
+
+
