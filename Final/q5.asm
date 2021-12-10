@@ -4,6 +4,7 @@
 # 12/10/21
 # CS21 Final Q5
 # Read 3 digits using MM I/O. Create int with corresponding value and print value using syscall.
+# If interested for MMIO_Lab2.asm I made a program that can take in any number of digits and output as int
 #
 
         .text
