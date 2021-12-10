@@ -6,10 +6,18 @@
 # Read 3 digits using MM I/O. Create int with corresponding value and print value using syscall.
 #
 
-    .text
-    .globl  main
+        .text
+        .globl  main
 main:
-    li  $t0, 100        # $t0 contains multiplying factor for each place value entered
-                        # 100 for 1, 10 for 2, 1 for 3
+        li      $t0, 100        # $t0 contains multiplying factor for each place value entered
+                                # 100 for 1, 10 for 2, 1 for 3
 
-    lui $t9, 0xFFFF     # $t9 = Memory location of the start of the MMIO section(Receiver Control) 
+        lui     $t9, 0xFFFF     # $t9 = Memory location of the start of the MMIO section(Receiver Control) 
+rd_wait:
+        lw      $t1, 0($t9)     # Load Receiver Control to $t1
+        andi    $t1, $t1, 1     # Clear all bits of Receiver Control besides the LSB
+        beqz    $t1, rd_wait    # If not ready(0) restart rd_wait, if ready(1) continue onto calculation
+        lw      $t2, 4($t9)     # Read data in Receiver Data to $t2
+
+        
+
