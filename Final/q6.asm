@@ -39,7 +39,7 @@ loop:
         syscall
 
 print:
-        li      $v0, 4              # System Code to print string
+        li      $v0, 11              # System Code to print character
         syscall
 
 done:
