@@ -5,6 +5,9 @@
 # CS21 Final Q6
 # Take input by user and print it in the console until 'q' is typed using an interrupt handler
 #
+        .kdata
+s1:     .word   10
+s2:     .word   11
 
         .text
         .globl  main
@@ -21,10 +24,9 @@ loop:
         j       loop            # Infinite loop until 'q' is reached
 
         .ktext  0x80000180      # Start of Kernel text
-        eret                    # Return to Exception Program Counter
-        sw      $v0, 10         # Set $v0 to 10
-        sw      $a0, 11         # Set $a0 to 11
-
+        sw      $v0, s1         # Set $v0 to 10
+        sw      $a0, s2         # Set $a0 to 11
+        eret
         mfc0    $k0, $13        # Read Cause Register to $k0
         srl     $a0, $k0, 2     # Bit 0 and 1 of Cause Register are blank
         andi    $a0, $a0, 0x1F  # Only leave 5 bits that represeent Exception Code
@@ -36,8 +38,8 @@ loop:
         syscall
 
 done:
-        lw      $v0, 10         # Restore $v0
-        lw      $a0, 11         # Restore $a0
+        lw      $v0, s1         # Restore $v0
+        lw      $a0, s2         # Restore $a0
         mtc0    $zero, $13      # Clear Cause Register
         mfc0    $k0, $12        # Set Status Register
         ori     $k0, 0x11       # Reenable interrupts
