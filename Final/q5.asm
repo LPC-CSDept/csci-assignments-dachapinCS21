@@ -16,14 +16,14 @@ main:
 rd_wait:
         lw      $t1, 0($t9)         # Load Receiver Control to $t1
         andi    $t1, $t1, 1         # Clear all bits of Receiver Control besides the LSB
-        beqz    $t1, rd_wait         # If not ready(0) restart rd_wait, if ready(1) continue onto calculation
+        beqz    $t1, rd_wait        # If not ready(0) restart rd_wait, if ready(1) continue onto calculation
         lw      $t2, 4($t9)         # Read data in Receiver Data to $t2
 
         sub     $t2, $t2, 48        # Subtract $t2 by 48 to convert from ASCII to int
         mul     $t2, $t2, $t0       # Multiply $t2 by the place value factor in $t0
         div     $t0, $t0, 10        # Divide $t0 to decrease place value factor to the next place
         add     $a0, $a0, $t2       # Add current digits value to total($a0)
-        bne     $t1, 1, rd_wait     # If not on the last place poll for the next digit
+        bne     $t0, 1, rd_wait     # If not on the last place poll for the next digit
 
 print:
         li      $v0, 1              # System call code to print int
