@@ -20,4 +20,10 @@ main:
 loop:
         j       loop            # Infinite loop until 'q' is reached
 
+
+        .ktext  0x80000180      # Start of Kernel text
+        sw      $v0, 10
+        sw      $a0, 11
+
+        mfc0    $k0, $13        # Read Cause Register to $k0
         
