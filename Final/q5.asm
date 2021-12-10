@@ -22,8 +22,9 @@ rd_wait:
         sub     $t2, $t2, 48        # Subtract $t2 by 48 to convert from ASCII to int
         mul     $t2, $t2, $t0       # Multiply $t2 by the place value factor in $t0
         div     $t0, $t0, 10        # Divide $t0 to decrease place value factor to the next place
-        bne     $t3, 1, rd_wait     # If not on the last place poll for the next digit
+        add     $t3, $t3, $t2       # Add current digits value to total($t3)
+        bne     $t1, 1, rd_wait     # If not on the last place poll for the next digit
 
-        
+
 
 
