@@ -16,3 +16,8 @@ main:
         lui     $t9, 0xFFFF     # $t9 = Memory location of the start of the MMIO section(Receiver Control) 
         ori     $a0, $zero, 2   # Enable keyboard interrupt
         sw      $a0, 0($t9)     # Store new pattern to Receiver Control to enable interrupts
+
+loop:
+        j       loop            # Infinite loop until 'q' is reached
+
+        
